@@ -1,23 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, GestureResponderEvent, TextInput, FlatList } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
 import ItemLista, { Data } from './src/components/Item-lista';
 
 export default function App() {
   const [item, setItem] = useState('');
   const [lista, setLista] = useState<Data[]>([]);
+  const [total, setTotal] = useState(0); // Estado para o total, inicializado como 0
+
+  // useEffect para calcular o total sempre que a lista mudar
+  useEffect(() => {
+    const newTotal = calcularTotal(lista);
+    setTotal(newTotal);
+  }, [lista]);
 
   function handleAdd() {
     if (item.trim() === '') {
       alert('Informe um item para sua lista!');
       return;
     }
+    
     const newItem: Data = {
       key: Date.now(),
       item: item,
-      price: 0,
+      price: 0, // Inicializando preço como 0
+      quantidade: 1,
+      onIncrementar: function (): void {
+        throw new Error("Function not implemented.");
+      },
+      onDecrementar: function (): void {
+        throw new Error("Function not implemented.");
+      }
     };
+  
     setLista([...lista, newItem]);
     setItem('');
   }
@@ -26,17 +41,32 @@ export default function App() {
     setLista(lista.filter(item => item.key !== itemKey));
   }
 
+  function handleIncrementar(itemKey: number) {
+    const updatedList = lista.map(item => {
+      if (item.key === itemKey) {
+        return { ...item, quantidade: item.quantidade + 1 };
+      }
+      return item;
+    });
+    setLista(updatedList);
+  }
+
+  function handleDecrementar(itemKey: number) {
+    const updatedList = lista.map(item => {
+      if (item.key === itemKey) {
+        return { ...item, quantidade: item.quantidade - 1 };
+      }
+      return item;
+    });
+    setLista(updatedList);
+  }
+
   function calcularTotal(lista: Data[]) {
     let total = 0;
     lista.forEach(item => {
-      total += parseFloat(item.price) || 0;
+      total += item.price * item.quantidade;
     });
     return total;
-  }
-
-  function formatarMoeda(valor: number | string) {
-    const valorNumerico = parseFloat(valor.toString());
-    return 'R$ ' + valorNumerico.toFixed(2).replace('.', ',').replace(/(\d)(?=(\d{3})+\,)/g, '$1.');
   }
 
   return (
@@ -57,11 +87,18 @@ export default function App() {
         data={lista}
         keyExtractor={(item) => item.key.toString()}
         renderItem={({ item }) => (
-          <ItemLista data={item} deleteItem={() => handleDelete(item.key)} lista={lista} setLista={setLista} />
+          <ItemLista 
+            data={item} 
+            deleteItem={() => handleDelete(item.key)} 
+            lista={lista} 
+            setLista={setLista} 
+            onIncrementar={() => handleIncrementar(item.key)} 
+            onDecrementar={() => handleDecrementar(item.key)}  
+          />
         )}
         style={styles.lista}
       />
-      <Text style={styles.total}>Total: {formatarMoeda(calcularTotal(lista))}</Text>
+      <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text> {/* Exibindo o total */}
     </View>
   );
 }
@@ -82,7 +119,7 @@ const styles = StyleSheet.create({
   },
   containerInput: {
     flexDirection: 'row',
-    width: '100%',
+    padding: '5%',
     height: 44,
     alignItems: 'center',
     justifyContent: 'center',
