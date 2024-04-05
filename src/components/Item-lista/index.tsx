@@ -4,20 +4,20 @@ import { FontAwesome } from '@expo/vector-icons';
 import { CheckBox } from 'react-native-elements';
 import { TextInputMask } from 'react-native-masked-text'; // Importando o componente TextInputMask
 
-export interface Data { 
-  key: number, 
-  item: string, 
-  price: number, 
-  quantidade: number, 
+export interface Data {
+  key: number,
+  item: string,
+  price: number,
+  quantidade: number,
   onIncrementar: () => void,
   onDecrementar: () => void
 }
 
-export default function ItemLista({ data, deleteItem, lista, setLista, onIncrementar, onDecrementar }: { 
-  data: Data, 
-  deleteItem: () => void, 
-  lista: Data[], 
-  setLista: React.Dispatch<React.SetStateAction<Data[]>> , 
+export default function ItemLista({ data, deleteItem, lista, setLista, onIncrementar, onDecrementar }: {
+  data: Data,
+  deleteItem: () => void,
+  lista: Data[],
+  setLista: React.Dispatch<React.SetStateAction<Data[]>>,
   onIncrementar: () => void,
   onDecrementar: () => void
 }) {
@@ -29,6 +29,7 @@ export default function ItemLista({ data, deleteItem, lista, setLista, onIncreme
     const updatedList = lista.filter(item => item.key !== data.key);
     setLista(updatedList);
   };
+
 
   const handleIncrement = () => {
     onIncrementar();
@@ -122,7 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingHorizontal: 5,
     marginLeft: 6,
-    fontSize: 12 
+    fontSize: 12
   },
   quantityContainer: {
     flexDirection: 'row',
