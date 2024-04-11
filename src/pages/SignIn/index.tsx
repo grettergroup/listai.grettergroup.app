@@ -9,12 +9,13 @@ import {
     ActivityIndicator,
     ImageBackground
 } from "react-native";
+import { AuthContext } from "../../context/AuthContext";
 
-//import { AuthContext } from "../../contexts/AuthContext";
+
 
 export default function SignIn() {
-    const [loadingAuth, setLoadingAuth] = useState(false)
-    // const { signIn, loadingAuth} = useContext(AuthContext);
+    //const [loadingAuth, setLoadingAuth] = useState(false)
+    const { signIn, loadingAuth } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
 
@@ -23,7 +24,7 @@ export default function SignIn() {
             return
         }
 
-        //    await signIn({ usuario: email, senha })
+        await signIn({ usuario: email, senha })
 
     }
 
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         borderRadius: 4,
         paddingHorizontal: 8,
-        color: '#fff'
+        color: '#22272e'
     },
     button: {
         backgroundColor: '#FF3F4B',

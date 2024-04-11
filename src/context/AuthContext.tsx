@@ -45,7 +45,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     useEffect(() => {
         async function getUser() {
             //obter dados do usuário 
-            const userInfo = await AsyncStorage.getItem('@seupedido');
+            //const userInfo = await AsyncStorage.getItem('@seupedido'); 
+            const userInfo = await AsyncStorage.getItem('@listai');
             let hasUser: UserProps = JSON.parse(userInfo || '{}')
 
             if (Object.keys(hasUser).length > 0) {
@@ -76,16 +77,18 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 email: "teste@teste.com.br",
                 token: "asdgasdgasdfasfbasfvsfvafvasfdasdgasdgasdgasdgasdg"
             }
-            //console.log(response.data)
+            // console.log(response.data)
+            console.log(response)
 
             const { id, nome, email, token } = response;
 
             setLoadingAuth(false);
-            const data = {
-                ...response
-            };
+            // const data = {
+            //     ...response
+            // };
 
-            await AsyncStorage.setItem('@seupedido', JSON.stringify(data))
+            //await AsyncStorage.setItem('@seupedido', JSON.stringify(data))
+            await AsyncStorage.setItem('@listai', JSON.stringify(response))
 
             // api.defaults.headers.common.Authorization = `Bearer ${token}`;
 
