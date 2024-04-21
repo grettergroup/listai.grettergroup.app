@@ -6,10 +6,9 @@ import ItemLista, { Data } from "../Item-lista";
 
 export default function Lista() {
     const [item, setItem] = useState('');
-    const [lista, setLista] = useState<Data[]>([]);
-    const [total, setTotal] = useState(0); // Estado para o total, inicializado como 0
+    const [lista, setLista] = useState<Data[]>([])
+    const [total, setTotal] = useState(0)
 
-    // useEffect para calcular o total sempre que a lista mudar
     useEffect(() => {
         const newTotal = calcularTotal(lista);
         setTotal(newTotal);
@@ -99,7 +98,7 @@ export default function Lista() {
                 )}
                 style={styles.lista}
             />
-            <Text style={styles.total}>Total: R$ {total.toFixed(2)}</Text> {/* Exibindo o total */}
+            <Text style={styles.total}>Total: R$ <Text>{total.toFixed(2)}</Text></Text>
         </View>
     );
 }
@@ -153,6 +152,8 @@ const styles = StyleSheet.create({
         textAlign: 'right',
         color: '#fff',
         padding: 8,
-        width: '100%', // Ajuste para garantir que o componente tenha 100% de largura
+        width: '100%',
+        marginBottom: 40,
+        marginRight: 20 // Ajuste para garantir que o componente tenha 100% de largura
     },
 });
