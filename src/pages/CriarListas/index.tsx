@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert } from "react-native";
 import { FontAwesome } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import NovaLista from "../../components/nova-lista";
-
 
 export default function CriarListas() {
     const [nomeLista, setNomeLista] = useState('');
     const [listaNovaLista, setListaNovaLista] = useState<string[]>([]);
+    const navigation = useNavigation();
 
     function handlerAdicionarNovaLista() {
         if (nomeLista.trim() === '') {
@@ -16,6 +17,15 @@ export default function CriarListas() {
         setListaNovaLista([...listaNovaLista, nomeLista]);
         setNomeLista('');
         Alert.alert('Sucesso', 'Lista adicionada com sucesso!');
+    }
+
+    function handlerRemoverLista(nome: string) {
+        setListaNovaLista(listaNovaLista.filter(item => item !== nome));
+        Alert.alert('Sucesso', 'Lista removida com sucesso!');
+    }
+
+    function handleNavigateToDetalhesLista(nome: string) {
+        navigation.navigate('Dashboard', { nomeLista: nome });
     }
 
     return (
@@ -37,7 +47,9 @@ export default function CriarListas() {
                 data={listaNovaLista}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={({ item }) => (
-                    <NovaLista nome={item} />
+                    <TouchableOpacity onPress={() => handleNavigateToDetalhesLista(item)}>
+                        <NovaLista nome={item} onRemove={() => handlerRemoverLista(item)} />
+                    </TouchableOpacity>
                 )}
                 style={styles.lista}
             />

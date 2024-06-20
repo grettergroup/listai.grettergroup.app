@@ -1,71 +1,54 @@
-import React, { useContext, useState } from "react";
-import { Text, SafeAreaView, StyleSheet } from "react-native";
-
+import React from "react";
+import { View, Text, SafeAreaView, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackParamsList } from "../../routes/app.routes";
-import { AuthContext } from "../../context/AuthContext";
+import { RouteProp } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
 import Lista from "../../components/lista";
 
-export default function Dashboard() {
-    //const navigation = useNavigation<NativeStackNavigationProp<StackParamsList>>();
-    //const { signOut } = useContext(AuthContext)
+type DashboardRouteProp = RouteProp<StackParamsList, 'Dashboard'>
+
+interface DashboardProps {
+    route: DashboardRouteProp;
+}
+
+export default function Dashboard({ route }: DashboardProps) {
+    const { nomeLista } = route.params;
+    const navigation = useNavigation<NativeStackNavigationProp<StackParamsList>>();
 
     return (
-        //<SafeAreaView style={styles.container}>
-        <Lista />
-        //</SafeAreaView>
-    )
+        <SafeAreaView style={styles.container}>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+                    <FontAwesome name="arrow-left" size={30} color="#fff" />
+                </TouchableOpacity>
+                {/* <Text style={styles.title}>voltar</Text> */}
+            </View>
+            <Lista titulo={nomeLista} />
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
         backgroundColor: '#1d1d2e'
     },
+    header: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 15,
+        paddingTop: 10,
+        paddingBottom: 10,
+        backgroundColor: '#22272e',
+    },
+    backButton: {
+        marginRight: 10,
+    },
     title: {
-        fontSize: 40,
+        fontSize: 20,
         fontWeight: 'bold',
         color: '#fff',
-        marginBottom: 24
     },
-    inputNumeroMesa: {
-        width: '90%',
-        height: 60,
-        backgroundColor: '#101026',
-        borderRadius: 4,
-        paddingHorizontal: 8,
-        textAlign: 'center',
-        fontSize: 18,
-        color: '#fff'
-    },
-
-    inputNomeCliente: {
-        width: '90%',
-        height: 60,
-        backgroundColor: '#101026',
-        borderRadius: 4,
-        paddingHorizontal: 8,
-        textAlign: 'center',
-        fontSize: 18,
-        color: '#fff',
-        marginBottom: 18
-    },
-
-    button: {
-        marginVertical: 12,
-        width: '90%',
-        backgroundColor: '#3fffa3',
-        height: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 4
-    },
-    buttonText: {
-        textAlign: 'center',
-        fontSize: 18,
-        color: '#101026'
-    }
-})
+});

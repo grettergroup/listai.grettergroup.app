@@ -3,8 +3,11 @@ import { View, Text, StyleSheet, TouchableOpacity, TextInput, FlatList } from "r
 import { FontAwesome } from '@expo/vector-icons';
 import ItemLista, { Data } from "../Item-lista";
 
+interface ListaProps {
+    titulo: string
+}
 
-export default function Lista() {
+export default function Lista({ titulo }: ListaProps) {
     const [item, setItem] = useState('');
     const [lista, setLista] = useState<Data[]>([])
     const [total, setTotal] = useState(0)
@@ -71,7 +74,7 @@ export default function Lista() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Lista de compras</Text>
+            <Text style={styles.title}>{titulo}</Text>
             <View style={styles.containerInput}>
                 <TextInput
                     style={styles.input}

@@ -1,30 +1,36 @@
-// components/NovaLista.tsx
+import React from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { FontAwesome } from '@expo/vector-icons';
 
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-
-interface NovaListaProps{
+interface NovaListaProps {
     nome: string;
-};
+    onRemove: () => void;
+}
 
-export default function NovaLista({nome}: NovaListaProps){
+export default function NovaLista({ nome, onRemove }: NovaListaProps) {
     return (
-        <View style={styles.item}>
+        <View style={styles.itemContainer}>
             <Text style={styles.itemText}>{nome}</Text>
+            <TouchableOpacity onPress={onRemove}>
+                <FontAwesome name="trash" size={20} color="#1D1D2E" />
+            </TouchableOpacity>
         </View>
     );
 }
-    
 
 const styles = StyleSheet.create({
-    item: {
-        padding: 10,
-        marginVertical: 5,
+    itemContainer: {
         backgroundColor: '#fff',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
         borderRadius: 4,
+        marginTop: 14
     },
     itemText: {
-        color: '#000',
+        fontSize: 18,
     },
 });
-

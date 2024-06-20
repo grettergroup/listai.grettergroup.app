@@ -5,27 +5,30 @@ import CriarListas from "../pages/CriarListas";
 
 
 export type StackParamsList = {
-    Dashboard: undefined;
-    CriarListas: undefined;
+  Dashboard: { nomeLista: string };
+  CriarListas: undefined;
 };
 
 const Stack = createNativeStackNavigator<StackParamsList>();
 
 function AppRoutes() {
-    return (
-        <Stack.Navigator>
-            {/* <Stack.Screen
-                name="Dashboard"
-                component={Dashboard}
-                options={{ headerShown: false }}
-            /> */}
-            <Stack.Screen
-                name="CriarListas"
-                component={CriarListas}
-                options={{ headerShown: false }}
-            />
-        </Stack.Navigator>
-    )
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="CriarListas"
+        component={CriarListas}
+        options={{
+          headerShown: false
+        }}
+      />
+      <Stack.Screen
+        name="Dashboard"
+        component={Dashboard}
+        options={{ headerShown: false }}
+      />
+
+    </Stack.Navigator>
+  )
 }
 
 export default AppRoutes;

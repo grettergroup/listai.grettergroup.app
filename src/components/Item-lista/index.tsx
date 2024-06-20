@@ -70,7 +70,7 @@ export default function ItemLista({ data, deleteItem, lista, setLista, onIncreme
           unit: 'R$',
           suffixUnit: ''
         }}
-        value={(parseFloat(price.replace('R$', '').replace(',', '.')) ).toFixed(2)} //* quantidade Multiplica o preço pela quantidade
+        value={(parseFloat(price.replace('R$', '').replace(',', '.'))).toFixed(2)} //* quantidade Multiplica o preço pela quantidade
         onChangeText={(text) => setPrice(text)}
         onBlur={() => {
           const newPrice = parseFloat(price.replace('R$', '').replace(',', '.'));
